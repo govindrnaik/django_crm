@@ -6,8 +6,8 @@
 	{% if records %}
 	<div class="row row-cols-1 row-cols-md-3 g-4">
 		{% for record in records %}
-			<div class="col">
-				<div class="card">
+			<div class="col ">
+				<div class="card text-bg-dark mb-3">
 					<div class="card-body">
 						<h5 class="card-title">
 							<a href="{% url 'record' record.id %}">{{ record }}</a>

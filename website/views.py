@@ -71,7 +71,7 @@ def record_user(request, pk):
 def add_record(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            form = AddRecordForm(request.POST)
+            form = AddRecordForm(request.POST or None)
             if form.is_valid():
                 record = form.save(commit=False)
                 record.user = request.user
@@ -104,12 +104,13 @@ def edit_record(request, pk):
 def delete_record(request, pk):
     if request.user.is_authenticated:
         record = Record.objects.get(id=pk)
-        if request.method == 'POST':
-            record.delete()
-            messages.success(request, ('Record has been deleted!'))
-            return redirect('home')
-        else:
-            return render(request, 'delete_record.html', {'record':record})
+        record.delete()
+        messages.success(request, ('Record has been deleted!'))
+        return redirect('home')
+        # if request.method == 'POST':
+        # else:
+            # messages.success(request, ('Please select a record to delete...'))
+            # return redirect('home')    
     else:
         messages.success(request, ('Please log in to delete a record...'))
         return redirect('home')
