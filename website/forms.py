@@ -8,8 +8,7 @@ from django import forms
 
 class LoginForm(AuthenticationForm):
 	username = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'username'}))
-	password = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'password'}))
-
+	password = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'password', 'type':'password', 'name':'password'}))
 
 	class Meta:
 		model = User

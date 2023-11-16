@@ -3,14 +3,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import LoginForm, SignUpForm
+from .models import Record
+
 
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html',{})
+    records = Record.objects.all()
 
-
-def home(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -33,7 +33,7 @@ def home(request):
             return redirect('home')
     else:
         form = LoginForm()
-        return render(request, 'home.html', {'form':form})
+        return render(request, 'home.html', {'form':form, 'records': records})
     
 def logout_user(request):
     logout(request)
