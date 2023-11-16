@@ -3,6 +3,8 @@ from os import name
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
+
+from website.models import Record
 # from .models import Record
 
 
@@ -62,6 +64,6 @@ class AddRecordForm(forms.ModelForm):
 	state = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"State", "class":"form-control"}), label="")
 	zipcode = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Zipcode", "class":"form-control"}), label="")
 
-	# class Meta:
-	# 	model = Record
-	# 	exclude = ("user",)
+	class Meta:
+		model = Record
+		exclude = ("user",)

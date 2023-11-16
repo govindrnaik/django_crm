@@ -1,8 +1,9 @@
 import django
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+import django.contrib.auth.models
 from django.shortcuts import render, redirect
-from .forms import LoginForm, SignUpForm
+from .forms import AddRecordForm, LoginForm, SignUpForm
 from .models import Record
 
 
@@ -59,3 +60,56 @@ def register_user(request):
 	return render(request, 'register.html', {'form':form})
 
 
+def record_user(request, pk):
+    if request.user.is_authenticated:
+        record = Record.objects.get(id=pk)
+        return render(request, 'record.html', {'record':record})
+    else:
+        messages.success(request, ('Please log in to view this record...'))
+        return redirect('home')
+    
+def add_record(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = AddRecordForm(request.POST)
+            if form.is_valid():
+                record = form.save(commit=False)
+                record.user = request.user
+                record.save()
+                messages.success(request, ('Record has been added!'))
+                return redirect('home')
+        else:
+            form = AddRecordForm()
+            return render(request, 'add_record.html', {'form':form})
+    else:
+        messages.success(request, ('Please log in to add a record...'))
+        return redirect('home')
+    
+def edit_record(request, pk):
+    if request.user.is_authenticated:
+        record = Record.objects.get(id=pk)
+        if request.method == 'POST':
+            form = AddRecordForm(request.POST, instance=record)
+            if form.is_valid():
+                form.save()
+                messages.success(request, ('Record has been edited!'))
+                return redirect('home')
+        else:
+            form = AddRecordForm(instance=record)
+            return render(request, 'edit_record.html', {'form':form})
+    else:
+        messages.success(request, ('Please log in to edit a record...'))
+        return redirect('home')
+    
+def delete_record(request, pk):
+    if request.user.is_authenticated:
+        record = Record.objects.get(id=pk)
+        if request.method == 'POST':
+            record.delete()
+            messages.success(request, ('Record has been deleted!'))
+            return redirect('home')
+        else:
+            return render(request, 'delete_record.html', {'record':record})
+    else:
+        messages.success(request, ('Please log in to delete a record...'))
+        return redirect('home')

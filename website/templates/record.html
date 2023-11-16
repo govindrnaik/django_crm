@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Record</h1>
+            <p>Record page</p>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">{{ record }}</h5>
+						<p class="card-text">{{ record.email }}</p>
+						<p class="card-text">{{ record.phone }}</p>
+						<p class="card-text">{{ record.address }}</p>
+						<p class="card-text">{{ record.city }}</p>
+						<p class="card-text">{{ record.state }}</p>
+						<p class="card-text">{{ record.zipcode }}</p>
+						<p class="card-text">{{ record.created_at }}</p>
+						<a href="{% url 'home' %}" class="btn btn-outline-secondary">Back</a>
+						<a href="{% url 'delete_record' record.id %}" class="btn btn-outline-danger">Delete</a>
+
+						<!-- <a href="{% url 'record' record.id %}" class="btn btn-success">Save</a> -->
+					</div>
+				</div>
+        </div>
+    </div>
+
+{% endblock %}
