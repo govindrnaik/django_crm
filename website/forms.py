@@ -1,9 +1,23 @@
 import email
 from os import name
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 # from .models import Record
+
+
+class LoginForm(AuthenticationForm):
+	username = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'username'}))
+	password = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'password'}))
+
+
+	class Meta:
+		model = User
+		fields = ('username', 'password')
+
+
+	def __init__(self, *args, **kwargs):
+		super(LoginForm, self).__init__(*args, **kwargs)
 
 
 class SignUpForm(UserCreationForm):
